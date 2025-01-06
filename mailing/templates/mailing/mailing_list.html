@@ -1,0 +1,19 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>Список рассылок</h1>
+  <a href="{% url 'mailing:mailing_create' %}" class="btn btn-primary mb-3">Создать новую рассылку</a>
+  {% if mailings %}
+    <ul class="list-group">
+      {% for mailing in mailings %}
+        <li class="list-group-item">
+          <a href="{% url 'mailing:mailing_detail' mailing.pk %}">{{ mailing }}</a>
+          <a href="{% url 'mailing:mailing_edit' mailing.pk %}" class="btn btn-sm btn-warning ms-2">Редактировать</a>
+          <a href="{% url 'mailing:mailing_delete' mailing.pk %}" class="btn btn-sm btn-danger ms-2">Удалить</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Список рассылок пуст. <a href="{% url 'mailing:mailing_create' %}">Создайте новую рассылку</a>.</p>
+  {% endif %}
+{% endblock %}

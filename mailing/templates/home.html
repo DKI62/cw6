@@ -1,0 +1,12 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>Добро пожаловать на главную страницу</h1>
+  <ul>
+    {% for mailing in mailings %}
+      <li>{{ mailing.title }} - {{ mailing.get_status_display }}</li>
+    {% empty %}
+      <p>Нет доступных рассылок.</p>
+    {% endfor %}
+  </ul>
+{% endblock %}

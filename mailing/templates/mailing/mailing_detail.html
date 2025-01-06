@@ -1,0 +1,16 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>Детали рассылки</h1>
+  <p><strong>Название:</strong> {{ mailing }}</p>
+  <p><strong>Статус:</strong> {{ mailing.get_status_display }}</p>
+  <p><strong>Дата начала:</strong> {{ mailing.start_time }}</p>
+  <p><strong>Периодичность:</strong> {{ mailing.get_periodicity_display }}</p>
+  <h2>Клиенты</h2>
+  <ul class="list-group">
+    {% for client in mailing.clients.all %}
+      <li class="list-group-item">{{ client.full_name }} ({{ client.email }})</li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'mailing:mailing_list' %}" class="btn btn-secondary mt-3">Назад</a>
+{% endblock %}
