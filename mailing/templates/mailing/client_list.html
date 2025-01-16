@@ -1,0 +1,15 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>Список клиентов</h1>
+  <a href="{% url 'mailing:client_create' %}" class="btn btn-primary mb-3">Добавить клиента</a>
+  {% if object_list %}
+    <ul>
+      {% for client in object_list %}
+        <li>{{ client.full_name }} ({{ client.email }})</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Клиентов пока нет.</p>
+  {% endif %}
+{% endblock %}

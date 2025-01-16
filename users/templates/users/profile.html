@@ -1,0 +1,24 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h2>Профиль пользователя</h2>
+<p><strong>Username:</strong> {{ user.username }}</p>
+<p><strong>Email:</strong> {{ user.email }}</p>
+<p><strong>First name:</strong> {{ user.first_name }}</p>
+<p><strong>Last name:</strong> {{ user.last_name }}</p>
+
+<p>
+    <strong>Password:</strong>
+    {% if user.has_usable_password %}
+        <a href="{% url 'users:password_change' %}">Изменить пароль</a>
+    {% else %}
+        No password set.
+        <a href="{% url 'users:password_change' %}">Установить пароль</a>
+    {% endif %}
+</p>
+
+<form action="{% url 'users:logout' %}" method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Выйти</button>
+</form>
+{% endblock %}

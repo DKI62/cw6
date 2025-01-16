@@ -1,0 +1,10 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+    <h2>Вы уверены, что хотите заблокировать пользователя {{ object.username }}?</h2>
+    <form method="post" action="">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Заблокировать</button>
+        <a href="{% url 'users:user_list' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+{% endblock %}

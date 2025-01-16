@@ -1,0 +1,13 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<h2>Все рассылки (для менеджера)</h2>
+<ul>
+    {% for mailing in mailings %}
+        <li>
+            {{ mailing.title }} - {{ mailing.status }}
+            <a href="{% url 'mailing:mailing_toggle_status' mailing.pk %}" class="btn btn-warning btn-sm">Отключить</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

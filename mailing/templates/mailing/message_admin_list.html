@@ -1,0 +1,10 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<h2>Список сообщений (для менеджера)</h2>
+<ul>
+    {% for message in messages %}
+        <li>{{ message.subject }} - {{ message.body }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

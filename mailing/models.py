@@ -1,7 +1,14 @@
+from django.conf import settings
 from django.db import models
 
 
 class Client(models.Model):
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='clients',
+        verbose_name='Владелец'
+    )
     email = models.EmailField(unique=True)
     full_name = models.CharField(max_length=255)
     comment = models.TextField(blank=True, null=True)
@@ -11,6 +18,12 @@ class Client(models.Model):
 
 
 class Message(models.Model):
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='messages',
+        verbose_name='Владелец'
+    )
     subject = models.CharField(max_length=255)
     body = models.TextField()
 
@@ -19,6 +32,12 @@ class Message(models.Model):
 
 
 class Mailing(models.Model):
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='mailings',
+        verbose_name='Владелец'
+    )
     STATUS_CHOICES = [
         ('created', 'Создана'),
         ('started', 'Запущена'),
@@ -29,7 +48,7 @@ class Mailing(models.Model):
         ('weekly', 'Раз в неделю'),
         ('monthly', 'Раз в месяц'),
     ]
-    title = models.CharField(max_length=255)  # Добавляем поле title
+    title = models.CharField(max_length=255)
     start_time = models.DateTimeField()
     periodicity = models.CharField(max_length=20, choices=PERIOD_CHOICES)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='created')

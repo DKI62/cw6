@@ -1,0 +1,12 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<h1>{{ article.title }}</h1>
+{% if article.image %}
+    <img src="{{ article.image.url }}" alt="{{ article.title }}" style="max-width: 400px;">
+{% endif %}
+<p>{{ article.content }}</p>
+<p><strong>Опубликовано:</strong> {{ article.published_date }}</p>
+<p><strong>Просмотры:</strong> {{ article.views }}</p>
+<a href="{% url 'home' %}" class="btn btn-primary">На главную</a>
+{% endblock %}

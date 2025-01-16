@@ -1,5 +1,5 @@
 from django import forms
-from .models import Mailing
+from .models import Mailing, Client, Message
 
 
 class MailingForm(forms.ModelForm):
@@ -8,9 +8,20 @@ class MailingForm(forms.ModelForm):
         fields = ['title', 'status', 'periodicity', 'start_time', 'clients', 'message']
 
     def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
         super().__init__(*args, **kwargs)
-        self.fields['clients'].widget.attrs.update({'class': 'form-control'})
-        self.fields['start_time'].widget.attrs.update({'class': 'form-control', 'type': 'datetime-local'})
-        self.fields['periodicity'].widget.attrs.update({'class': 'form-control'})
-        self.fields['status'].widget.attrs.update({'class': 'form-control'})
-        self.fields['message'].widget.attrs.update({'class': 'form-control'})
+        if self.request and self.request.user.is_authenticated:
+            self.fields['clients'].queryset = Client.objects.filter(owner=self.request.user)
+            self.fields['message'].queryset = Message.objects.filter(owner=self.request.user)
+
+
+class ClientForm(forms.ModelForm):
+    class Meta:
+        model = Client
+        fields = ['full_name', 'email', 'comment']
+
+
+class MessageForm(forms.ModelForm):
+    class Meta:
+        model = Message
+        fields = ['subject', 'body']

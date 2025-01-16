@@ -1,0 +1,15 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>Список сообщений</h1>
+  <a href="{% url 'mailing:message_create' %}" class="btn btn-primary mb-3">Добавить сообщение</a>
+  {% if object_list %}
+    <ul>
+      {% for message in object_list %}
+        <li>{{ message.subject }}: {{ message.body }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Сообщений пока нет.</p>
+  {% endif %}
+{% endblock %}

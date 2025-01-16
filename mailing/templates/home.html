@@ -1,12 +1,37 @@
 {% extends 'base_generic.html' %}
 
 {% block content %}
-  <h1>Добро пожаловать на главную страницу</h1>
-  <ul>
-    {% for mailing in mailings %}
-      <li>{{ mailing.title }} - {{ mailing.get_status_display }}</li>
-    {% empty %}
-      <p>Нет доступных рассылок.</p>
+<h1>Добро пожаловать на главную страницу</h1>
+
+<p>Общее количество рассылок: {{ total_mailings }}</p>
+<p>Количество активных рассылок: {{ active_mailings }}</p>
+<p>Количество уникальных клиентов: {{ unique_clients }}</p>
+
+<h2>Рекомендованные статьи</h2>
+<ul>
+    {% for article in random_articles %}
+        <li>
+            <h3><a href="{% url 'blog:blog_detail' article.pk %}">{{ article.title }}</a></h3>
+            <p>{{ article.content|truncatechars:100 }}</p>
+            {% if article.image %}
+                <img src="{{ article.image.url }}" alt="{{ article.title }}" style="max-width: 200px;">
+            {% else %}
+                <p>Изображение отсутствует.</p>
+            {% endif %}
+        </li>
     {% endfor %}
-  </ul>
+</ul>
+
+{% if user.is_authenticated %}
+<h2>Ваши рассылки:</h2>
+<ul>
+    {% for mailing in user_mailings %}
+        <li>{{ mailing.title }} - {{ mailing.get_status_display }}</li>
+    {% empty %}
+        <li>У вас пока нет рассылок.</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>Пожалуйста, <a href="{% url 'users:login' %}">войдите</a>, чтобы увидеть ваши рассылки.</p>
+{% endif %}
 {% endblock %}
